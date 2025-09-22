@@ -8,7 +8,31 @@ program pepitaGame {
 	game.cellSize(50) 		//valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
+	game.ground("muro.png")
+	game.addVisualCharacter(pepita)
+	//se puede mover con el teclado
+	game.addVisual(silvestre)
+	// game.removeVisual(pepita)
 	
-	//game.addVisual(pepita)
-	game.start()	
+	//hacemos Colisiones
+	game.whenCollideDo(pepita,{ silvestre =>
+	                            silvestre.subirUnaVez()
+								})
+	//preguntar
+	game.whenCollideDo(silvestre,{ pepita =>
+	                               pepita.hablar()
+								})
+
+	game.say(pepita, pepita.hablar())
+
+	//eventos automaticos
+	//se ejecuta solo una vez
+	game.schedule(5000, {pepita.moverSolo()})
+	//preguntaaaar!
+	game.schedule(5000, silvestre.subirUnaVez())
+
+	// eventosConElTeclado
+	//preguntar
+	game.enter().onPressDo(silvestre.subirUnaVez())
+	game.start()	 
 }
