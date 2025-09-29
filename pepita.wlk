@@ -18,7 +18,39 @@ object pepita {
 	  return if(silvestre.position() == self.position())  "pepita-gris.png" else "pepita.png"
 	}
 	
+//------------
+method irA(nuevaPosicion) {
+		self.validarMover(nuevaPosicion)
+		self.volar(self.position().distance(nuevaPosicion))
+		const nuevaX = nuevaPosicion.x().max(0).min(12)
+		const nuevaY = nuevaPosicion.y().max(0).min(12)
+		position = game.at(nuevaX, nuevaY)
+	}
 
+	method cansada(){ return energia <= 0}
+
+	method validarMover(nuevaPosicion){
+		if (self.cansada() or self.conSilvestre())
+			{self.error("no me puedo mover :(")
+			self.lose()}
+		else if (fisica.hayMuroEn(nuevaPosicion)){
+			self.error("hay un muro, che!")
+		}
+	}
+method conSilvestre() {	return self.position() == silvestre.position()}
+
+	method caer() {
+		position = game.at(position.x(), (position.y()-1).max(0))
+	}
+
+	method win() {
+		game.say(self, "¡GANÉ!")
+	}
+
+	method lose() {
+		game.say(self, "¡PERDÍ!")
+	}
+	//---------------
 	
 }
 object nido {
@@ -37,6 +69,33 @@ object silvestre {
 	}
 
 
+
+}
+object fisicaDelMundo {
+	method configTeclas(){
+		keyboard.left().onPressDo({
+			pepita.irA(pepita.position().left(1))})
+		keyboard.right().onPressDo({
+			pepita.irA(pepita.position().right(1))})
+		keyboard.up().onPressDo({
+			pepita.irA(pepita.position().up(1))})
+		keyboard.down().onPressDo({
+			pepita.irA(pepita.position().down(1))})
+	}
+
+	method gravedad(){
+		game.onTick(800, "caer", {pepita.caer()})
+	}
+
+	method materia() {
+		game.whenCollideDo(pepita, {cosa => cosa.encontroCon(pepita)}
+		)
+	}
+
+	method hayMuroEn(lugar) {
+		return (lugar == muro.position()) or (lugar == muro2.position())
+	}
+	
 
 }
 /*

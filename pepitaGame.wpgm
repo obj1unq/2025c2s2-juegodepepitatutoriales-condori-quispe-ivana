@@ -23,7 +23,14 @@ program pepitaGame {
 	//                                tutorial1.esAtrapado()})
 	// game.whenCollideDo(silvestre, {tutorial1 => 
 	//                                tutorial1.silvestreSigueAPepita()})
+	game.addVisual(manzana)
+    game.addVisual(alpiste)
+    game.showAttributes(pepita)
+    game.addVisual(pepita)
 
+	fisicaDelMundo.configTeclas()
+	fisicaDelMundo.gravedad()
+    fisicaDelMundo.materia()
 	game.start()
 	/*
 	game.addVisualCharacter(pepita)
