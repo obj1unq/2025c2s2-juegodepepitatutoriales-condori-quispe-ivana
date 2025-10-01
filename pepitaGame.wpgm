@@ -1,8 +1,7 @@
 import wollok.game.*
 import pepita.*
 import extras.*
-
-
+import comidas.*
 program pepitaGame {
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
 	game.height(10) 		//valor por defecto 5
@@ -12,12 +11,12 @@ program pepitaGame {
 	//Valor por defecto game.ground("ground.png")
 	
 	
-	
-	game.ground("muro.png")
-
+	game.boardGround("fondo2.jpg")
+	//game.ground("muro.png")
+    
 	game.addVisual(silvestre)
 	game.addVisual(nido)
-	game.addVisualCharacter(pepita)
+	
     
 	// game.whenCollideDo(silvestre, {tutorial1 => 
 	//                                tutorial1.esAtrapado()})
@@ -25,14 +24,24 @@ program pepitaGame {
 	//                                tutorial1.silvestreSigueAPepita()})
 	game.addVisual(manzana)
     game.addVisual(alpiste)
+	game.addVisual(muro)
     game.showAttributes(pepita)
+	//game.addVisualCharacter(pepita)
     game.addVisual(pepita)
+    configurarElMundo.configTeclas()
+	//configurarElMundo.gravedad()
+    configurarElMundo.configuraCollisiones()
 
-	fisicaDelMundo.configTeclas()
-	fisicaDelMundo.gravedad()
-    fisicaDelMundo.materia()
 	game.start()
 	/*
+	//Valor por defecto game.ground("ground.png")
+	game.boardGround("fondo.jpg")
+	game.addVisual(silvestre)
+	game.addVisual(nido)
+	game.addVisual(pepita)
+
+
+
 	game.addVisualCharacter(pepita)
 	//se puede mover con el teclado
 	game.addVisual(silvestre)
