@@ -263,4 +263,6 @@ object muro {
 		method image() {
 	  return if(self.estaConSilvestre()) "pepita-gris.png" else if (self.estaEnElNido()) "pepita.png" else "pepita.png"
 	}
+
 	*/	
+	
