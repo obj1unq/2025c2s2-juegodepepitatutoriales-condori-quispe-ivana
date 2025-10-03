@@ -1,6 +1,5 @@
 import wollok.game.*
 import pepita.*
-import extras.*
 import comidas.*
 program pepitaGame {
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
@@ -25,13 +24,14 @@ program pepitaGame {
 	game.addVisual(manzana)
     game.addVisual(alpiste)
 	game.addVisual(muro)
-    game.showAttributes(pepita)
-	//game.addVisualCharacter(pepita)
-    game.addVisual(pepita)
+    
+
+    
     configurarElMundo.configTeclas()
 	//configurarElMundo.gravedad()
     configurarElMundo.configuraCollisiones()
-
+	game.addVisual(pepita)
+	game.showAttributes(pepita)
 	game.start()
 	/*
 	//Valor por defecto game.ground("ground.png")

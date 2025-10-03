@@ -1,7 +1,12 @@
+import wollok.game.*
+import comidas.*
 object pepita {
 	var property energia = 500 // sino lo pongo nopuedo ver energia
 	var property position = game.at(0, 6) //game.origin()
 	var estado = pepitaLibre //como no supe utilizarlo bien debo preguntar
+	
+	const comidasAAparecer = []
+	const comidasActivas = [] 
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
 		game.removeVisual(comida) //saca una vez que se come
@@ -10,15 +15,11 @@ object pepita {
 	method volar(kms) {
 		energia = energia - (kms * 9 )
 	}
-	
-	method energia() {
-		return energia
-	}
 	method estaCansada(){ return energia <= 0}
 
 
 	method actualizarEstado() {
-	if (self.estaConSilvestre()) {
+	if (self.estaConSilvestre() || self.estaCansada()) {
 		estado = pepitaPierde
 		self.lose()
 	} else if (self.estaEnElNido()) {
@@ -29,13 +30,14 @@ object pepita {
 	}
 	}
 	method image() {
-  return if (self.estaConSilvestre() || self.estaCansada()) 
+  /*return if (self.estaConSilvestre() || self.estaCansada()) 
            "pepita-gris.png"
          else if (self.estaEnElNido()) 
            "pepita-grande.png"
          else 
-           "pepita.png"
-} 
+           "pepita.png"*/
+		   return "pepita" + estado.nombreDeEstado() + ".png"
+	} 
 	method estaConSilvestre() {	return silvestre.position() == self.position()}
 	method estaEnElNido(){
 		return self.position() == nido.position()
@@ -62,8 +64,10 @@ method irA(nuevaPosicion) {
 		
 		position = game.at(nuevaX, nuevaY)
 		if(self.estaCansada()){
+			game.say(self, "Me quedé sin energía...")
 			game.stop() //detiene el juego
 		} //ver donde lo meto
+		self.actualizarEstado()
 	}
 
 	
@@ -72,12 +76,11 @@ method irA(nuevaPosicion) {
 		
 	if (self.estaCansada() || self.estaConSilvestre()) {
 		self.error("No me puedo mover!")
-		self.lose()
 	} else if (configurarElMundo.hayMuroEn(nuevaPosicion)) {
+		//game.say(self, "¡Hay un muro!")
 		self.error("¡Hay un muro!")
 	} else if (self.estaCansada()) {
-		game.say(self, "Me quedé sin energía...")
-		game.stop()
+		self.error("Me quedé sin energía...")
 	}
 
 /*		if (self.estaCansada() || self.estaConSilvestre()){
@@ -105,13 +108,19 @@ method irA(nuevaPosicion) {
 // EJEMPLO => SI position es 0 (esta en el piso) => 0-1 = -1 pero con el max se veria 
 // -1.max(0) y eso devuelve 0
 	method win() {
+		game.removeTickEvent("GRAVEDAD")
 		game.say(self, "WIN!!!")
-		//game.schedule(2 * 1000, "Ganar", {game.stop()})
+		game.schedule(2000, {game.stop()})
+		console.println(energia)
+		//game.onTick(2 * 1000, "GANAR", {game.stop()})
 	}
 
 	method lose() {
 		//console.log("Llamando a lose()")
+		game.removeTickEvent("GRAVEDAD")
 		game.say(self, "Game over")
+		game.schedule(2000, {game.stop()})
+		console.println(energia)
 	}
 	//---------------
 	
@@ -133,6 +142,9 @@ object nido {
   method image() {
 	  return "nido.png"
   }
+  method teEncontro(objeto) {
+	  return self.position() == objeto.position()
+	}
 }
 object silvestre {
 	//var position = game.origin() 
@@ -141,6 +153,10 @@ object silvestre {
 	}
 	method position() {
 	  return if (pepita.position().x() >= 3) game.at(pepita.position().x(), 0) else game.at(3, 0) 
+	}
+	method teEncontro(objeto) {
+	  return self.position() == objeto.position()
+
 	}
 // otra form a return game.at(pepita.position().x().max()3, 0)
 
@@ -186,6 +202,7 @@ object muro {
 	return "muro.png"
   } 
   method teEncontro(objeto) {
+	//game.removeTickEvent("GRAVEDAD")
 	return self.position() == objeto.position()
   }
 }
