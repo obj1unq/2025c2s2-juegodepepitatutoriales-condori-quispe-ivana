@@ -21,12 +21,11 @@ program pepitaGame {
 	//                                tutorial1.esAtrapado()})
 	// game.whenCollideDo(silvestre, {tutorial1 => 
 	//                                tutorial1.silvestreSigueAPepita()})
-	game.addVisual(manzana)
-    game.addVisual(alpiste)
+
 	game.addVisual(muro)
     
 
-    
+    configurarElMundo.aprecenLasComidas()
     configurarElMundo.configTeclas()
 	//configurarElMundo.gravedad()
     configurarElMundo.configuraCollisiones()

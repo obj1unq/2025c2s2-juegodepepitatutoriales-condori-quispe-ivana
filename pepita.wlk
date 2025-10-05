@@ -1,15 +1,38 @@
 import wollok.game.*
 import comidas.*
+import randomizer.*
+
 object pepita {
 	var property energia = 500 // sino lo pongo nopuedo ver energia
 	var property position = game.at(0, 6) //game.origin()
 	var estado = pepitaLibre //como no supe utilizarlo bien debo preguntar
 	
-	const comidasAAparecer = []
+
 	const comidasActivas = [] 
+
+	method crearComida() {
+	  
+	  self.validarSiSePuedeCrearComida()
+	  
+	  const gramos = (40 .. 100).anyOne()
+	  const comida = [new Manzana(position = randomizer.emptyPosition()), 
+	  				  new Alpiste(position = randomizer.emptyPosition(),peso = gramos)].anyOne()
+	  
+
+	  comidasActivas.add(comida)
+
+	  game.addVisual(comida)
+	}
+
+	method validarSiSePuedeCrearComida() {
+	  if(comidasActivas.size() == 3){
+		self.error("No se puede crear comida, Tope lleno")
+	  }
+	}
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
 		game.removeVisual(comida) //saca una vez que se come
+		comidasActivas.remove(comida)
 	}
 
 	method volar(kms) {
@@ -30,12 +53,6 @@ object pepita {
 	}
 	}
 	method image() {
-  /*return if (self.estaConSilvestre() || self.estaCansada()) 
-           "pepita-gris.png"
-         else if (self.estaEnElNido()) 
-           "pepita-grande.png"
-         else 
-           "pepita.png"*/
 		   return "pepita" + estado.nombreDeEstado() + ".png"
 	} 
 	method estaConSilvestre() {	return silvestre.position() == self.position()}
@@ -195,6 +212,41 @@ object configurarElMundo { // si bien esta modelado como objeto, esto se puede p
 	method configuraCollisiones() {
 	  game.onCollideDo(pepita, {algo => algo.teEncontro(pepita)})
 	}
+	method aprecenLasComidas() {
+	  game.onTick(3000, "COMIDAS", {pepita.crearComida()})
+	  console.println("COMIDAS")
+	}
+	/*
+	como me esta apareciendo el error del sel.error.actualizarEstado()para 
+	que no aparesca agrego try-Catch
+	program p {
+  const a = new A()
+    const otroA = new A()
+
+  try {
+    a.m1()
+    ...
+  }
+  catch e : MyException {
+    otroA.m1()
+  }
+} 
+	Es un mecanismo de manejo de errores. Sirve para atrapar una excepción (error controlado) 
+	y responder de alguna manera alternativa cuando algo falla.*/
+	method mapaDelJuego() {
+	  /*
+	  	¿Que significa crear mapa?
+		Significa armar un tablero inicial con los elementos del juego de forma clara sin usar game.addVisual()
+
+	  */
+	  const mapDefinition = []
+
+	  mapDefinition.add("")
+
+	  //const map = mapBuilder.buildMapFromMatrix(mapDefinition)
+	  //return map
+	}
+//ESTA EN PROCESO
 }
 object muro {
   var property position = game.at(7, 3)
@@ -206,80 +258,3 @@ object muro {
 	return self.position() == objeto.position()
   }
 }
-/*
-	method verPositionY() {
-
-	  return position.y() // (2@3).y() => 3
-	}
-	// HAGAMOS + ACCIONES
-	method hablar() {
-	  return "Holaa! Soy Pepita"
-	}
-	// ejemplo eutomatico
-	method moverSolo() {
-	  const x = 0.randomUpTo(game.width())
-	  const y = 0.randomUpTo(game.height())
-
-	  position = game.at(x,y)
-	}
-	// acciones del tutorial 1
-	method llegarAlNido() {
-	  
-	}
-	// HAGAMOS + ACCIONES
-	method subirUnaVez() {
-	  position = position.up(1)
-	}
-	method moverHaciaNorteXYEsteY(x,y) {
-	  position = position.up(x)
-	  position = position.right(y)
-	  	  //(position.up(x) , position.right(y))
-	}
-	//si hago esto,¿es ocrrecto usar property?
-	method moverSolo() {
-	  const x = 0.randomUpTo(game.width())
-	  const y = 0.randomUpTo(game.height())
-
-	  position = game.at(x,y)
-	}
-		method moverA_Y_(x,y) {
-
-	  position = game.at(x,y)
-	}
-		method moverA_Y_(x,y) {
-
-	  position = game.at(x,y)
-	}
-
-	--------------------cosas 
-	else if (fisica.hayMuroEn(nuevaPosicion)){
-			self.error("hay un muro, che!")
-		}
-*/
-/*
-
-	method iniciarEstados() {
-		game.onTick(300, "estadoPepita", { pepita.actualizarEstado() })
-	}
-}
-*/
-// cosas en pepita ---
-/*
-	method image() {
-	return "pepita" + estado.nombreDeEstado() + ".png"
-	}
-*/
-	/*
-	//ceomo esto debe cambiar, le hago if
-	method image() {
-	  return if(silvestre.position() == self.position())  "pepita-gris.png" else"pepita.png"
-	}*/
-	/*method image() {
-	  return "pepita-" + estado.nombreDeEstado() + ".png"
-	} recordar ver la compu 98
-		method image() {
-	  return if(self.estaConSilvestre()) "pepita-gris.png" else if (self.estaEnElNido()) "pepita.png" else "pepita.png"
-	}
-
-	*/	
-	
