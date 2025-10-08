@@ -1,6 +1,6 @@
 import wollok.game.*
 import pepita.*
-
+import comidas.*
 program pepitaGame {
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
 	game.height(10) 		//valor por defecto 5
@@ -9,6 +9,104 @@ program pepitaGame {
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
 	
-	//game.addVisual(pepita)
-	game.start()	
+	
+	game.boardGround("fondo2.jpg")
+	//game.ground("muro.png")
+    
+	game.addVisual(silvestre)
+	game.addVisual(nido)
+	
+    
+	// game.whenCollideDo(silvestre, {tutorial1 => 
+	//                                tutorial1.esAtrapado()})
+	// game.whenCollideDo(silvestre, {tutorial1 => 
+	//                                tutorial1.silvestreSigueAPepita()})
+
+	game.addVisual(muro)
+    
+
+    configurarElMundo.aprecenLasComidas()
+    configurarElMundo.configTeclas()
+	//configurarElMundo.gravedad()
+    configurarElMundo.configuraCollisiones()
+	game.addVisual(pepita)
+	game.showAttributes(pepita)// ya no sirve solo hay que hacerlol con text  peso.to.toString()
+	game.start()
+	/*
+	//Valor por defecto game.ground("ground.png")
+	game.boardGround("fondo.jpg")
+	game.addVisual(silvestre)
+	game.addVisual(nido)
+	game.addVisual(pepita)
+
+
+
+	game.addVisualCharacter(pepita)
+	//se puede mover con el teclado
+	game.addVisual(silvestre)
+	// game.removeVisual(pepita)
+	
+	//hacemos Colisiones
+	game.whenCollideDo(pepita,{ silvestre =>
+	                            silvestre.subirUnaVez()
+								})
+	//preguntar
+	game.whenCollideDo(silvestre,{ pepita =>
+	                               pepita.hablar()
+								})
+
+	game.say(pepita, pepita.hablar())
+
+	//eventos automaticos
+	//se ejecuta solo una vez
+	game.schedule(5000, {pepita.moverSolo()})
+	//preguntaaaar!
+	game.schedule(5000, silvestre.subirUnaVez())
+
+	// eventosConElTeclado
+	//preguntar
+	game.enter().onPressDo(silvestre.subirUnaVez())
+	game.start()	*/ 
 }
+/*
+import wollok.game.*
+import pepita.*
+
+program pepitaGame {
+	game.title("Pepita") 	//Valor por defecto "Wollok Game"
+	game.height(10) 		//valor por defecto 5
+	game.width(10) 			//valor por defecto 5
+	game.cellSize(50) 		//valor por defecto 50
+	//search assets in assets folder, for example, for the background
+	//Valor por defecto game.ground("ground.png")
+	game.ground("muro.png")
+	game.addVisualCharacter(pepita)
+	//se puede mover con el teclado
+	game.addVisual(silvestre)
+	// game.removeVisual(pepita)
+	
+	//hacemos Colisiones
+	game.whenCollideDo(pepita,{ silvestre =>
+	                            silvestre.subirUnaVez()
+								})
+	//preguntar
+	game.whenCollideDo(silvestre,{ pepita =>
+	                               pepita.hablar()
+								})
+
+	game.say(pepita, pepita.hablar())
+
+	//eventos automaticos
+	//se ejecuta solo una vez
+	game.schedule(5000, {pepita.moverSolo()})
+	//preguntaaaar!
+	game.schedule(5000, silvestre.subirUnaVez())
+
+	// eventosConElTeclado
+	//preguntar
+	game.enter().onPressDo(silvestre.subirUnaVez())
+	game.start()	 
+}
+
+
+*/
