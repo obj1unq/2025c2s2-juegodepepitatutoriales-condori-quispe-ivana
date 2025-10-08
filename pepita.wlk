@@ -2,6 +2,9 @@ import wollok.game.*
 import comidas.*
 import randomizer.*
 
+import  mapa.*
+
+
 object pepita {
 	var property energia = 500 // sino lo pongo nopuedo ver energia
 	var property position = game.at(0, 6) //game.origin()
@@ -17,12 +20,34 @@ object pepita {
 	  const gramos = (40 .. 100).anyOne()
 	  const comida = [new Manzana(position = randomizer.emptyPosition()), 
 	  				  new Alpiste(position = randomizer.emptyPosition(),peso = gramos)].anyOne()
+	  //no es feliz hacerlo asi porque 
+	  //para mejorarlo puede meter las instancias en bloques ().anyOne().apliy()
+
 	  
+	  //esa lista ddeberia ser u metodo que se encargue de hacer eso 
+	  //haciendo un factorimetro, este metodo 
+	
 
 	  comidasActivas.add(comida)
 
 	  game.addVisual(comida)
 	}
+	/*
+	cuando hay 2 maneras de hacer lo mismo 
+	se debe hacer polimorfismo 
+	factorie de manzana y alpiste 
+
+	crear 2 objetos llamados manzanaFactory y alpisteFactory
+
+
+	con metodos que entiendan los 2 
+
+	crear(){
+	return new Manzana(....)}
+ y crear una lista const factories = [alpiste, manzana]
+
+	
+	*/
 
 	method validarSiSePuedeCrearComida() {
 	  if(comidasActivas.size() == 3){
@@ -31,7 +56,8 @@ object pepita {
 	}
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
-		game.removeVisual(comida) //saca una vez que se come
+		//agregar if (game.hasVisual(comida)) //para el test
+		game.removeVisual(comida) //saca una vez que se come 
 		comidasActivas.remove(comida)
 	}
 
@@ -224,7 +250,15 @@ object configurarElMundo { // si bien esta modelado como objeto, esto se puede p
 	
 	
 	
+	hacer que los muros sean clases 
+
+	| N | - |-  |
+	_____________
+	| - | M |  M| 
 	
+	cada objeto pertence a un caaracter 
+	Primero se diseña como quiero tener el "mapa"
+	como cada lugar que no tenga algo y este vacio colocar un -
 	
 	
 	
