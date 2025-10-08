@@ -30,7 +30,7 @@ program pepitaGame {
 	//configurarElMundo.gravedad()
     configurarElMundo.configuraCollisiones()
 	game.addVisual(pepita)
-	game.showAttributes(pepita)
+	game.showAttributes(pepita)// ya no sirve solo hay que hacerlol con text  peso.to.toString()
 	game.start()
 	/*
 	//Valor por defecto game.ground("ground.png")

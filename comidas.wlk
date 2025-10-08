@@ -1,7 +1,7 @@
 import wollok.game.*
 import pepita.*
 class Manzana {
-  var property position = game.origin()
+  const property position = game.origin() // ya que por cada instancia es como empezar uno nuevo, y se supone que no cambia mas
   const base = 5
   var madurez = 1
 	
@@ -22,8 +22,8 @@ class Manzana {
 }
 
 class Alpiste {
-	var property position = game.origin()
-	var property peso = 0 
+	const property position //se pude inicializar pero es mas funcionable dejarlo en ese estado
+	const property peso // valor default solo si tiene sentido; 
     method energiaQueOtorga() {
 		return peso
 	} 
@@ -34,3 +34,4 @@ class Alpiste {
 		cosa.comer(self)
 	}
 }
+//las instancias no se borran, simplemente se van, osea si esta en una coleccion lo saco y lo mismo con los visual y demas

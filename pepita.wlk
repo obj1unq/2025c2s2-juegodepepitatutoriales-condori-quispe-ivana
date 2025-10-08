@@ -13,7 +13,7 @@ object pepita {
 	method crearComida() {
 	  
 	  self.validarSiSePuedeCrearComida()
-	  
+	  // en vez de validar realizo un if con la condicion de comidasActivas.size() == 3
 	  const gramos = (40 .. 100).anyOne()
 	  const comida = [new Manzana(position = randomizer.emptyPosition()), 
 	  				  new Alpiste(position = randomizer.emptyPosition(),peso = gramos)].anyOne()
@@ -212,10 +212,29 @@ object configurarElMundo { // si bien esta modelado como objeto, esto se puede p
 	method configuraCollisiones() {
 	  game.onCollideDo(pepita, {algo => algo.teEncontro(pepita)})
 	}
-	method aprecenLasComidas() {
+	method aprecenLasComidas() { // podria ser comenzar() para mantener la logica de la comi
 	  game.onTick(3000, "COMIDAS", {pepita.crearComida()})
 	  console.println("COMIDAS")
 	}
+
+	/*
+		CLASE CON LEO
+		creo un objeto gravedad. para al momento de usarlo 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	*/
 	/*
 	como me esta apareciendo el error del sel.error.actualizarEstado()para 
 	que no aparesca agrego try-Catch
